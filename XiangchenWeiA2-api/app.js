@@ -63,6 +63,16 @@ app.get('/:id', function(req, res) {
   })
 })
 
+app.get("/fundraiser/donations/:fundraiserId", (req, res) => {
+  connection.query('select * from donation where FUNDRAISER_ID = ' + req.params.fundraiserId, (err, records, fields) => {
+    if (err) {
+      console.log("Error while retrieve the data");
+    } else {
+      res.send(records)
+    }
+  })
+});
+
 app.listen(port, function() {
   console.log(`App listening on port ${port}`);
 })
