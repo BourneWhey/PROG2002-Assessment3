@@ -7,6 +7,7 @@ const port = 8000;
 const connection = dbcon.getconnection();
 
 app.use(cors());
+app.use(express.json());
 
 app.get('/fundraisers', function(req, res) {
   connection.query('select * from fundraiser left join category on fundraiser.CATEGORY_ID = category.CATEGORY_ID where active = 1', (err, records, fields) => {
@@ -138,27 +139,74 @@ app.post("/fundraiser", (req, res) => {
   connection.query('insert info fundraiser(ORGANIZER, CAPTION, TARGET_FUNDING, CURRENT_FUNDING, CITY, ACTIVE, CATEGORY_ID) values(?,?,?,?,?,?,?)',
     [req.body.organizer, req.body.caption, req.body.targetFunding, req.body.currentFunding, req.body.city, req.body.active, req.body.categoryId], (err, records, fields) => {
       if (err) {
-        console.log("Error while retrieve the data");
+        console.log("Error while create the fundraiser");
       } else {
         res.send(records)
       }
     })
 });
 
+app.put("/fundraiser/:fundraiserId", (req, res) => {
+  if (!req.body.organizer) {
+    res.status(400).send("Organizer required.")
+    return
+  }
 
-app.post("/fundraiser/donations", (req, res) => {
-  var date = new Date()
-  var giver = req.body.giver
-  var amount = req.body.amount
-  var fundraiserId = req.body.fundraiserId
+  if (!req.body.caption) {
+    res.status(400).send("Caption required.")
+    return
+  }
 
-  connection.query('INSERT INTO donation(DATE, AMOUNT, GIVER, FUNDRAISER_ID) VALUES(?,?,?,?)', [date, amount, giver, fundraiserId], (err, records) => {
-    if (err) {
-      console.log("Query error", err);
-    } else {
-      res.send(records)
-    }
-  });
+  if (!req.body.targetFunding) {
+    res.status(400).send("Target funding required.")
+    return
+  }
+
+  if (!req.body.currentFunding) {
+    res.status(400).send("Current funding required.")
+    return
+  }
+
+  if (!req.body.city) {
+    res.status(400).send("City required.")
+    return
+  }
+
+  if (!req.body.categoryId) {
+    res.status(400).send("CategoryId required.")
+    return
+  }
+
+  if (Number.isNaN(req.body.targetFunding)) {
+    res.status(400).send("Target funding should be number.")
+    return
+  }
+
+  if (Number.isNaN(req.body.currentFunding)) {
+    res.status(400).send("Current funding should be number.")
+    return
+  }
+
+  connection.query('update fundraiser set ORGANIZER = ?, CAPTION = ?, TARGET_FUNDING = ?, CURRENT_FUNDING = ?, CITY = ?, ACTIVE = ?, CATEGORY_ID = ? WHERE FUNDRAISER_ID = ?',
+    [req.body.organizer, req.body.caption, req.body.targetFunding, req.body.currentFunding, req.body.city, req.body.active, req.body.categoryId, req.params.fundraiserId], (err, records, fields) => {
+      if (err) {
+        console.log("Error while update the fundraiser");
+      } else {
+        res.send(records)
+      }
+    })
+});
+
+app.delete("/fundraiser/:fundraiserId", (req, res) => {
+
+  connection.query('delete from  fundraiser WHERE FUNDRAISER_ID = ?',
+    [req.params.fundraiserId], (err, records, fields) => {
+      if (err) {
+        console.log("Error while delete the fundraiser");
+      } else {
+        res.send(records)
+      }
+    })
 });
 
 app.listen(port, function() {
