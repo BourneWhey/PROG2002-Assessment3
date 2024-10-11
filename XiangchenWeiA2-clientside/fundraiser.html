@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fundraiser</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        nav ul {
+            display: flex;
+            gap: 100px;
+            justify-content: center;
+            align-items: center;
+        }
+        nav a {
+            color: white;
+        }
+        #detail {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px;
+            gap: 20px;
+        }
+        .fundraiser {
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul class="menu">
+            <li><a href="./home.html">Home</a></li>
+            <li><a href="./search-fundraisers.html">Search Fundraisers</a></li>
+            <li><a href="./fundraiser.html">Fundraiser</a></li>
+        </ul>
+    </nav>
+    <div id="detail">
+
+    </div>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id');
+      const detail = document.getElementById("detail");
+
+      if (id) {
+        fetch('http://localhost:8000/' + id)
+          .then(response => response.json())
+          .then(response => {
+            if (response.length > 0) {
+              for (let i = 0; i < response.length; i++) {
+                detail.innerHTML += `
+                <div class="fundraiser">
+                    <div>Fundraiser ID: ${response[i].FUNDRAISER_ID}</div>
+                    <div>Organizer: ${response[i].ORGANIZER}</div>
+                    <div>Caption: ${response[i].CAPTION}</div>
+                    <div>Target Funding: ${response[i].TARGET_FUNDING} AUD</div>
+                    <div>Current Funding: ${response[i].CURRENT_FUNDING} AUD</div>
+                    <div>City: ${response[i].CITY}</div>
+                    <div>Active: ${response[i].ACTIVE === 1? 'active' : 'suspended'}</div>
+                    <div>Category: ${response[i].NAME}</div>
+                    <button onclick="donate()">Donate</button>
+                </div>
+            `
+              }
+            } else {
+              detail.innerHTML = '<div style="color: red;font-weight: bold">No fundraisers are found</div>'
+            }
+          })
+      } else {
+        detail.innerHTML = '<div style="color: red;font-weight: bold">No fundraisers are found</div>'
+      }
+
+      function donate() {
+        alert("This feature is under contruction");
+      }
+    </script>
+</body>
+</html>

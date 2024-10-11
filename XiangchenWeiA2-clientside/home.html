@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        nav ul {
+            display: flex;
+            gap: 100px;
+            justify-content: center;
+            align-items: center;
+        }
+        nav a {
+            color: white;
+        }
+        .info {
+            margin: 0 20px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        p {
+            color: #34495e;
+            line-height: 1.6;
+        }
+        .contact-info {
+            margin-top: 20px;
+        }
+        .contact-info p {
+            margin: 5px 0;
+        }
+        a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        #list {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px;
+            gap: 20px;
+        }
+        .fundraiser {
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 20%;
+        }
+    </style>
+</head>
+<body onload="loadFundraiser()">
+    <nav>
+        <ul class="menu">
+            <li><a href="./home.html">Home</a></li>
+            <li><a href="./search-fundraisers.html">Search Fundraisers</a></li>
+            <li><a href="./fundraiser.html">Fundraiser</a></li>
+        </ul>
+    </nav>
+    <div class="info">
+        <h1>Welcome!</h1>
+        <p>We are thrilled to welcome you to our organization, where every step we take brings us closer to creating a better, more compassionate world. At <strong>Our Organization</strong>, we are dedicated to making a meaningful difference in the lives of those in need, fostering a community where kindness, generosity, and hope thrive. Whether you’re here to learn more about our mission, volunteer your time, or support us through donations, we are grateful for your interest in being part of this journey toward a brighter future.</p>
+
+        <h2>Inspiring Stories</h2>
+        <p>Throughout the years, we have had the honor of witnessing countless inspiring stories of transformation and resilience. From the families we've helped find shelter and stability to the children who've received access to education through our programs, each story reminds us of the incredible impact we can make together.</p>
+
+        <h2>Contact Us</h2>
+        <div class="contact-info">
+            <p><strong>Email:</strong> <a href="mailto:info@nonprofit.org">XiangchenWei@fundraiser.org</a></p>
+            <p><strong>Phone:</strong> +1 (123) 456-7890</p>
+            <p><strong>Address:</strong>1234 Hope Street, Suite 567 Compassion City, CA 90210 United States</p>
+            <p><strong>Website:</strong> <a href="https://www.nonprofit.org" target="_blank">www.fundraiser.org</a></p>
+        </div>
+    </div>
+    <div id="list"></div>
+<script>
+    function loadFundraiser() {
+      fetch('http://localhost:8000/fundraisers')
+      .then(response => response.json())
+      .then(response => {
+        const list = document.getElementById("list");
+        for (let i = 0; i < response.length; i++) {
+          list.innerHTML += `
+                <div class="fundraiser">
+                    <div>Fundraiser ID: ${response[i].FUNDRAISER_ID}</div>
+                    <div>Organizer: ${response[i].ORGANIZER}</div>
+                    <div>Caption: ${response[i].CAPTION}</div>
+                    <div>Target Funding: ${response[i].TARGET_FUNDING} AUD</div>
+                    <div>Current Funding: ${response[i].CURRENT_FUNDING} AUD</div>
+                    <div>City: ${response[i].CITY}</div>
+                    <div>Active: ${response[i].ACTIVE === 1? 'active' : 'suspended'}</div>
+                    <div>Category: ${response[i].NAME}</div>
+                </div>
+            `
+        }
+      })
+    }
+</script>
+</body>
+</html>

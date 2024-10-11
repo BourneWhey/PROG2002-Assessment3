@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search fundraisers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        nav ul {
+            display: flex;
+            gap: 100px;
+            justify-content: center;
+            align-items: center;
+        }
+        nav a {
+            color: white;
+        }
+        .search {
+            margin: 20px;
+        }
+        #list {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px;
+            gap: 20px;
+        }
+        .fundraiser {
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 20%;
+        }
+        #list a {
+            color: initial;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body onload="loadCategories()">
+    <nav>
+        <ul class="menu">
+            <li><a href="./home.html">Home</a></li>
+            <li><a href="./search-fundraisers.html">Search Fundraisers</a></li>
+            <li><a href="./fundraiser.html">Fundraiser</a></li>
+        </ul>
+    </nav>
+    <div class="search">
+        <form onsubmit="search(event)" onreset="clearChechboxes(event)">
+            <input id="organizer" placeholder="organizer" />
+            <input id="city" placeholder="city" />
+            <select id="category">
+                <option value="">All</option>
+            </select>
+            <button type="submit">Search</button>
+            <button type="reset">Clear</button>
+        </form>
+    </div>
+    <div id="list"></div>
+<script>
+  function loadCategories() {
+    fetch('http://localhost:8000/categories')
+      .then(response => response.json())
+      .then(response => {
+        const category = document.getElementById("category");
+        for (let i = 0; i < response.length; i++) {
+          category.innerHTML += `
+               <option value="${response[i].CATEGORY_ID}">${response[i].NAME}</option>
+            `
+        }
+      })
+  }
+
+  function search(e) {
+    e.preventDefault();
+    const organizer = document.getElementById("organizer");
+    const city = document.getElementById("city");
+    const category = document.getElementById("category");
+
+    if (organizer.value === "" && city.value === "" && category.value === "") {
+      alert("You must select at least one criteria!");
+    } else {
+      fetch(`http://localhost:8000/search?organizer=${organizer.value}&city=${city.value}&category=${category.value}`)
+        .then(response => response.json())
+        .then(response => {
+          const list = document.getElementById("list");
+          list.innerHTML = '';
+          if (response.length > 0) {
+            for (let i = 0; i < response.length; i++) {
+              list.innerHTML += `
+                <a href="./fundraiser.html?id=${response[i].FUNDRAISER_ID}" class="fundraiser">
+                    <div>Fundraiser ID: ${response[i].FUNDRAISER_ID}</div>
+                    <div>Organizer: ${response[i].ORGANIZER}</div>
+                    <div>Caption: ${response[i].CAPTION}</div>
+                    <div>Target Funding: ${response[i].TARGET_FUNDING} AUD</div>
+                    <div>Current Funding: ${response[i].CURRENT_FUNDING} AUD</div>
+                    <div>City: ${response[i].CITY}</div>
+                    <div>Active: ${response[i].ACTIVE === 1? 'active' : 'suspended'}</div>
+                    <div>Category: ${response[i].NAME}</div>
+                </a>
+            `
+            }
+          } else {
+            list.innerHTML = '<div style="color: red;font-weight: bold">No fundraisers are found</div>'
+          }
+        })
+    }
+  }
+
+  function clearChechboxes(e) {
+    e.preventDefault()
+
+    const organizer = document.getElementById("organizer");
+    const city = document.getElementById("city");
+    const category = document.getElementById("category");
+    organizer.value = ""
+    city.value = ""
+    category.value = ""
+
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => checkbox.checked = false);
+  }
+</script>
+</body>
+</html>
