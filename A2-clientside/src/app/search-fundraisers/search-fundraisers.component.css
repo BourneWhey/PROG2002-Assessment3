@@ -1,0 +1,46 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+nav {
+  background-color: #2c3e50;
+  color: white;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+nav ul {
+  display: flex;
+  gap: 100px;
+  justify-content: center;
+  align-items: center;
+}
+nav a {
+  color: white;
+}
+.search {
+  margin: 20px;
+}
+#list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px;
+  gap: 20px;
+}
+.fundraiser {
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 20%;
+}
+#list a {
+  color: initial;
+  text-decoration: none;
+}

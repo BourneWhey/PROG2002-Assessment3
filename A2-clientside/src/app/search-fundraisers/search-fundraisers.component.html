@@ -1,0 +1,19 @@
+<nav>
+  <ul class="menu">
+    <li><a href="./home.html">Home</a></li>
+    <li><a href="./search-fundraisers.html">Search Fundraisers</a></li>
+    <li><a href="./fundraiser.html">Fundraiser</a></li>
+  </ul>
+</nav>
+<div class="search">
+  <form onsubmit="search(event)" onreset="clearChechboxes(event)">
+    <input id="organizer" placeholder="organizer" />
+    <input id="city" placeholder="city" />
+    <select id="category">
+      <option value="">All</option>
+    </select>
+    <button type="submit">Search</button>
+    <button type="reset">Clear</button>
+  </form>
+</div>
+<div id="list"></div>
