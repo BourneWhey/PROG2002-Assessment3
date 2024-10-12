@@ -10,7 +10,15 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/fundraisers', function(req, res) {
-  connection.query('select * from fundraiser left join category on fundraiser.CATEGORY_ID = category.CATEGORY_ID where active = 1', (err, records, fields) => {
+
+  const ignoreActive = req.query.ignoreActive
+
+  let condition = ''
+  if (!ignoreActive) {
+    condition = ' where active = 1';
+  }
+
+  connection.query('select * from fundraiser left join category on fundraiser.CATEGORY_ID = category.CATEGORY_ID ' + condition, (err, records, fields) => {
     if (err) {
       console.log("Error while retrieve the data");
     } else {
@@ -136,10 +144,10 @@ app.post("/fundraiser", (req, res) => {
     return
   }
 
-  connection.query('insert info fundraiser(ORGANIZER, CAPTION, TARGET_FUNDING, CURRENT_FUNDING, CITY, ACTIVE, CATEGORY_ID) values(?,?,?,?,?,?,?)',
+  connection.query('insert into fundraiser(ORGANIZER, CAPTION, TARGET_FUNDING, CURRENT_FUNDING, CITY, ACTIVE, CATEGORY_ID) values(?,?,?,?,?,?,?)',
     [req.body.organizer, req.body.caption, req.body.targetFunding, req.body.currentFunding, req.body.city, req.body.active, req.body.categoryId], (err, records, fields) => {
       if (err) {
-        console.log("Error while create the fundraiser");
+        console.log("Error while create the fundraiser", err);
       } else {
         res.send(records)
       }

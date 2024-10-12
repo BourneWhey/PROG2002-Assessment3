@@ -1,0 +1,71 @@
+<nav>
+  <ul class="menu">
+    <li><a>Admin Home</a></li>
+  </ul>
+</nav>
+<div id="list">
+  <button (click)="showModal = true">Create</button>
+  <table>
+    <thead>
+      <tr>
+        <th>Picture</th>
+        <th>Fundraiser ID</th>
+        <th>Organizer</th>
+        <th>Caption</th>
+        <th>Target Funding</th>
+        <th>Current Funding</th>
+        <th>City</th>
+        <th>Active</th>
+        <th>Category</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr  *ngFor="let item of data;let i = index">
+        <td>
+          <img [src]="randomImages[i]" style="width: 200px;object-fit: cover" />
+        </td>
+        <td>{{item.FUNDRAISER_ID}}</td>
+        <td>{{item.ORGANIZER}}</td>
+        <td>{{item.CAPTION}}</td>
+        <td>{{item.TARGET_FUNDING}}</td>
+        <td>{{item.CURRENT_FUNDING}}</td>
+        <td>{{item.CITY}}</td>
+        <td>{{item.ACTIVE === 1? 'active' : 'suspended'}}</td>
+        <td>{{item.NAME}}</td>
+        <td style="width: 150px">
+          <button (click)="editFundraiser(item)">edit</button>
+          <button (click)="deleteFundraiser(item)">delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="model" *ngIf="showModal">
+  <form (ngSubmit)="submitForm()" (reset)="resetForm()">
+    <h2 *ngIf="fundraiser.fundraiserId">Update Fundraiser</h2>
+    <h2 *ngIf="!fundraiser.fundraiserId">Create Fundraiser</h2>
+    <input id="organizer" placeholder="organizer" name="organizer" [(ngModel)]="fundraiser.organizer" />
+    <input id="caption" placeholder="caption" name="caption" [(ngModel)]="fundraiser.caption" />
+    <input id="targetFunding" placeholder="target funding" name="targetFunding" [(ngModel)]="fundraiser.targetFunding" />
+    <input id="currentFunding" placeholder="current funding" name="currentFunding" [(ngModel)]="fundraiser.currentFunding" />
+    <input id="city" placeholder="city" name="city" [(ngModel)]="fundraiser.city" />
+    <select id="active" name="active" [(ngModel)]="fundraiser.active">
+      <option value="">No Status</option>
+      <option value="0">Suspend</option>
+      <option value="1">Active</option>
+    </select>
+    <select id="category" name="category" [(ngModel)]="fundraiser.categoryId">
+      <option value="">All</option>
+      <option *ngFor="let item of categoryData" [value]="item.CATEGORY_ID">{{item.NAME}}</option>
+    </select>
+    <div class="form-btns">
+      <button type="submit">Submit</button>
+      <button type="reset">Clear</button>
+      <button type="button" (click)="showModal = false">Close</button>
+    </div>
+
+    <div style="color: red;font-weight: bold">{{message}}</div>
+  </form>
+</div>
