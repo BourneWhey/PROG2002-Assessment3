@@ -54,7 +54,7 @@ app.get('/search', function(req, res) {
   })
 })
 
-app.get('/:id', function(req, res) {
+app.get('/fundraisers/:id', function(req, res) {
   connection.query('select * from fundraiser left join category on fundraiser.CATEGORY_ID = category.CATEGORY_ID where FUNDRAISER_ID = ' + req.params.id, (err, records, fields) => {
     if (err) {
       console.log("Error while retrieve the data");

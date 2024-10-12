@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { FundraiserComponent } from './fundraiser/fundraiser.component';
 import { SearchFundraisersComponent } from './search-fundraisers/search-fundraisers.component';
+import { HttpClientModule } from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { SearchFundraisersComponent } from './search-fundraisers/search-fundrais
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
