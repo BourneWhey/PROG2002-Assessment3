@@ -9,7 +9,7 @@ const connection = dbcon.getconnection();
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static('../A2-clientside/dist/A2-clientside/browser'));
+app.use(express.static('../A2-clientside/dist/a2-clientside/browser'));
 
 app.get('/fundraisers', function(req, res) {
 
@@ -220,7 +220,7 @@ app.delete("/fundraiser/:fundraiserId", (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../A2-clientside/dist/A2-clientside/browser", "index.html"));
+  res.sendFile(path.join(__dirname, "../A2-clientside/dist/a2-clientside/browser", "index.html"));
 })
 
 app.listen(port, function() {
