@@ -8,13 +8,15 @@ import { FundraiserComponent } from './fundraiser/fundraiser.component';
 import { SearchFundraisersComponent } from './search-fundraisers/search-fundraisers.component';
 import { HttpClientModule } from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
+import { DonateComponent } from './donate/donate.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     FundraiserComponent,
-    SearchFundraisersComponent
+    SearchFundraisersComponent,
+    DonateComponent
   ],
   imports: [
     BrowserModule,

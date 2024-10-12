@@ -15,12 +15,11 @@
     <div>City: {{item.CITY}}</div>
     <div>Active: {{item.ACTIVE === 1? 'active' : 'suspended'}}</div>
     <div>Category: {{item.NAME}}</div>
-    <button (click)="donate(item.FUNDRAISER_ID)">Donate</button>
-  </div>
 
-  <div class="fundraiser" *ngFor="let item of donationData">
-    <div>Date: {{item.DATE|date}}</div>
-    <div>Amount: {{item.AMOUNT}}</div>
-    <div>Giver: {{item.GIVER}}</div>
+    <form (ngSubmit)="donate()">
+      <input id="amount" placeholder="amount" name="amount" [(ngModel)]="amount" />
+      <input id="giver" placeholder="giver" name="giver" [(ngModel)]="giver" />
+      <button type="submit">Submit my donation</button>
+    </form>
   </div>
 </div>

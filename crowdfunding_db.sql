@@ -22,7 +22,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category`  (
-  `CATEGORY_ID` int NOT NULL,
+  `CATEGORY_ID` int NOT NULL AUTO_INCREMENT,
   `NAME` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`CATEGORY_ID`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
@@ -40,7 +40,7 @@ INSERT INTO `category` VALUES (4, 'crisis relief');
 -- ----------------------------
 DROP TABLE IF EXISTS `fundraiser`;
 CREATE TABLE `fundraiser`  (
-  `FUNDRAISER_ID` int NOT NULL,
+  `FUNDRAISER_ID` int NOT NULL AUTO_INCREMENT,
   `ORGANIZER` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `CAPTION` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `TARGET_FUNDING` decimal(10, 0) NULL DEFAULT NULL,
@@ -83,7 +83,7 @@ INSERT INTO `fundraiser` VALUES (20, 'Beacon of Hope', 'Shine a light on those i
 -- ----------------------------
 DROP TABLE IF EXISTS `donation`;
 CREATE TABLE `donation`  (
-  `DONATION_ID` int NOT NULL,
+  `DONATION_ID` int NOT NULL AUTO_INCREMENT,
   `DATE` DATE DEFAULT NULL,
   `AMOUNT` decimal(10, 0) NULL DEFAULT NULL,
   `GIVER` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,

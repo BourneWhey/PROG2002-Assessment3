@@ -12,7 +12,7 @@ export class DonationService {
     return this.http.get("http://localhost:8000/fundraiser/donations/" + fundraiserId)
   }
 
-  addDonations(fundraiserId: number, amount: string, giver: string): any{
-    return this.http.post("/fundraiser/donations", { fundraiserId, amount, giver })
+  addDonations(fundraiserId: number, amount: number, giver: string): any{
+    return this.http.post("http://localhost:8000/fundraiser/donations", { fundraiserId, amount, giver })
   }
 }

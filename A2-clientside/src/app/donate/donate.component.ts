@@ -4,15 +4,17 @@ import {FundraiserService} from "../fundraiser.service";
 import {DonationService} from "../donation.service";
 
 @Component({
-  selector: 'app-fundraiser',
-  templateUrl: './fundraiser.component.html',
-  styleUrl: './fundraiser.component.css'
+  selector: 'app-donate',
+  templateUrl: './donate.component.html',
+  styleUrl: './donate.component.css'
 })
-export class FundraiserComponent {
+export class DonateComponent {
   data: any = []
-  donationData: any = []
   images = ['../assets/donate-3.jpg', '../assets/donation1.webp', '../assets/donation-4.jpg', '../assets/shutterstock_1735703225-e1603424756464.webp']
   randomImages: any = []
+
+  amount = ""
+  giver = ""
 
   constructor(private route: ActivatedRoute, private fundraiserService: FundraiserService, private  donationService: DonationService, private router: Router) {
     this.route.paramMap.subscribe((params: any) => {
@@ -25,14 +27,18 @@ export class FundraiserComponent {
           this.randomImages.push(this.images[index])
         }
       })
-
-      this.donationService.retrieveFundraiserDonations(fundraiserId).subscribe((result:any)=>{
-        this.donationData=result
-      })
     })
   }
 
-  donate(fundraiserId: number) {
-    this.router.navigateByUrl('/donate/' + fundraiserId)
+  donate() {
+    if (this.amount === "" || this.giver === "") {
+      alert("Amount and giver need enter.")
+    } else if (!/^\b([6-9]|\d{2,})\b$/.test(this.amount)) {
+      alert("minimum of donation is 5 AUD.")
+    } else {
+      this.donationService.addDonations(this.data[0].FUNDRAISER_ID, Number(this.amount), this.giver).subscribe(() => {
+        alert("Thank you for your donation to " + this.data[0].CAPTION)
+      })
+    }
   }
 }
