@@ -17,4 +17,10 @@
     <div>Category: {{item.NAME}}</div>
     <button (click)="donate()">Donate</button>
   </div>
+
+  <div class="fundraiser" *ngFor="let item of donationData">
+    <div>Date: {{item.DATE|date}}</div>
+    <div>Amount: {{item.AMOUNT}}</div>
+    <div>Giver: {{item.GIVER}}</div>
+  </div>
 </div>
