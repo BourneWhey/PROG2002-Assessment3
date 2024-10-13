@@ -96,7 +96,7 @@ app.post("/fundraiser/donations", (req, res) => {
   }
 
   connection.query('insert into donation(DATE, AMOUNT, GIVER, FUNDRAISER_ID) values(?,?,?,?)',
-    [new Date(), req.body.giver, req.body.amount, req.body.fundraiserId], (err, records, fields) => {
+    [new Date(), req.body.amount, req.body.giver, req.body.fundraiserId], (err, records, fields) => {
     if (err) {
       console.log("Error while retrieve the data", err);
     } else {
